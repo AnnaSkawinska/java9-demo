@@ -1,0 +1,33 @@
+buildscript {
+	ext {
+		springBootVersion = '1.5.10.RELEASE'
+	}
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+	}
+}
+
+apply plugin: 'java'
+apply plugin: 'application'  // for "gradle run"
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+
+group = 'software.xsolve'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = 1.8
+
+repositories {
+	mavenCentral()
+}
+
+mainClassName = 'software.xsolve.java9demo.Java9DemoApplication'
+
+dependencies {
+	compile('org.springframework.boot:spring-boot-starter')
+	compile('com.google.guava:guava:11.0.2')
+
+	testCompile('org.springframework.boot:spring-boot-starter-test')
+}
