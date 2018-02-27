@@ -17,17 +17,45 @@ apply plugin: 'org.springframework.boot'
 
 group = 'software.xsolve'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = 1.8
+sourceCompatibility = 1.9
 
 repositories {
 	mavenCentral()
 }
 
-mainClassName = 'software.xsolve.java9demo.Java9DemoApplication'
 
 dependencies {
 	compile('org.springframework.boot:spring-boot-starter')
 	compile('com.google.guava:guava:11.0.2')
 
 	testCompile('org.springframework.boot:spring-boot-starter-test')
+}
+
+ext.moduleName = 'software.xsolve.java9demo'
+mainClassName = "$moduleName/software.xsolve.java9demo.Java9DemoApplication"
+
+compileJava {
+	inputs.property("moduleName", moduleName)
+	doFirst {
+		options.compilerArgs = [
+				'--module-path', classpath.asPath,
+		]
+		classpath = files()
+	}
+}
+
+run {
+	inputs.property("moduleName", moduleName)
+	doFirst {
+		jvmArgs = [
+				'--module-path', classpath.asPath,
+				'--add-modules', 'ALL-DEFAULT',
+				'--module', mainClassName
+		]
+		classpath = files()
+	}
+}
+
+jar {
+	inputs.property("moduleName", moduleName)
 }
